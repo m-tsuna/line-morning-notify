@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  launchd（Mac の定期実行）に「毎朝 7:30 に main.py を動かす」と伝える設定ファイルの見本。
+  __PYTHON__ と __PROJECT_DIR__ を自分の環境の値に置き換えて使う（README の「毎朝の自動実行」を参照）。
+-->
+<plist version="1.0">
+<dict>
+    <!-- この設定の名前（登録・解除のときに使う） -->
+    <key>Label</key>
+    <string>local.line-morning</string>
+
+    <!-- 動かすコマンド：Python で main.py を実行する -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>__PYTHON__</string>
+        <string>__PROJECT_DIR__/main.py</string>
+    </array>
+
+    <!-- 動かすときのフォルダ -->
+    <key>WorkingDirectory</key>
+    <string>__PROJECT_DIR__</string>
+
+    <!-- 毎日 7:30 に動かす（Mac がスリープ中なら、起きたときに動く） -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>7</integer>
+        <key>Minute</key>
+        <integer>30</integer>
+    </dict>
+
+    <!-- 画面に出るはずの表示とエラーを、ファイルに残す -->
+    <key>StandardOutPath</key>
+    <string>__PROJECT_DIR__/logs/morning.log</string>
+    <key>StandardErrorPath</key>
+    <string>__PROJECT_DIR__/logs/error.log</string>
+</dict>
+</plist>

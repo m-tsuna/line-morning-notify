@@ -1,0 +1,31 @@
+# GitHub Actions に「毎朝 7:00（日本時間）に main.py を動かす」と伝える設定ファイル。
+# GitHub のコンピューターで動くので、自分の Mac の電源が切れていても届く。
+name: 毎朝のお知らせ
+
+on:
+  schedule:
+    # 時刻は世界の標準時（UTC）で書く。UTC の 22:00 ＝ 日本時間の 7:00
+    # （GitHub が混んでいると、数分〜30分ほど遅れて始まることがある）
+    - cron: "0 22 * * *"
+  # GitHub の画面（Actions タブの「Run workflow」）から、今すぐ動かせるようにする
+  workflow_dispatch:
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. このリポジトリのファイル（main.py など）を取ってくる
+      - uses: actions/checkout@v4
+
+      # 2. Python を用意して、ライブラリを入れる
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+
+      # 3. main.py を動かす。鍵と予定は Secrets（GitHub の金庫）から環境変数として渡す
+      - run: python main.py
+        env:
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+          SCHEDULE_TEXT: ${{ secrets.SCHEDULE_TEXT }}
