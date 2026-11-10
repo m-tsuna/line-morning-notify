@@ -21,6 +21,13 @@
 - 天気が取れなかった日も、予定だけは届きます
 - 自動実行は GitHub Actions（GitHub のコンピューター）で動かすので、Mac の電源が切れていても届きます
 
+## 使う技術
+
+- Python 3（requests・python-dotenv）
+- LINE Messaging API（プッシュメッセージ）
+- Open-Meteo（天気予報。鍵は不要）
+- GitHub Actions（毎朝の自動実行）
+
 ## 事前準備
 
 1. Python 3 と、ライブラリ `requests`・`python-dotenv`（Anaconda なら最初から入っています）
